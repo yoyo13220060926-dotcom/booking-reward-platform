@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nail Pass — Admin</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+:root{
+  --cream:#f0ebe0;--pink:#f03e6e;--dark:#1a1a1a;
+  --mid:#555;--soft:#999;--card:#fff;--r:18px;
+  --green:#1db06a;--green-bg:#e6f9f1;
+}
+html{background:var(--cream);}
+body{
+  min-height:100vh;
+  font-family:-apple-system,"SF Pro Display","PingFang TC","Noto Sans TC",sans-serif;
+  background:var(--cream);padding:28px 18px 80px;
+}
+.wrap{max-width:580px;margin:0 auto;}
+
+.topbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:28px;}
+.logo{font-size:15px;font-weight:900;letter-spacing:0.04em;background:var(--dark);color:#fff;padding:6px 14px;border-radius:99px;}
+.badge{font-size:11px;font-weight:900;letter-spacing:0.06em;text-transform:uppercase;background:var(--pink);color:#fff;padding:6px 14px;border-radius:99px;box-shadow:2px 2px 0 var(--dark);}
+
+.page-title{font-size:36px;font-weight:900;text-transform:uppercase;letter-spacing:-0.5px;color:var(--dark);line-height:1.05;margin-bottom:6px;}
+.page-title em{font-style:normal;color:var(--pink);}
+.page-sub{font-size:13px;color:var(--soft);margin-bottom:24px;}
+
+/* stats */
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:16px;}
+.stat{
+  background:var(--card);border:2px solid var(--dark);border-radius:var(--r);
+  box-shadow:3px 3px 0 var(--dark);padding:16px 14px;text-align:center;
+}
+.stat-n{font-size:30px;font-weight:900;color:var(--dark);}
+.stat-n.pink{color:var(--pink);}
+.stat-l{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:var(--soft);margin-top:4px;}
+
+/* stamp ctrl */
+.stamp-card{
+  background:var(--card);border:2px solid var(--dark);border-radius:var(--r);
+  box-shadow:4px 4px 0 var(--dark);padding:20px;margin-bottom:16px;
+}
+.sc-row{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-bottom:16px;}
+.sc-info .ttl{font-size:15px;font-weight:900;text-transform:uppercase;letter-spacing:0.04em;color:var(--dark);}
+.sc-info .sub{font-size:12px;color:var(--soft);margin-top:3px;}
+.ctrl{display:flex;align-items:center;gap:12px;}
+.ctrl-btn{
+  width:40px;height:40px;border-radius:50%;
+  border:2px solid var(--dark);background:var(--cream);
+  font-size:20px;font-weight:900;color:var(--dark);
+  cursor:pointer;display:flex;align-items:center;justify-content:center;
+  box-shadow:2px 2px 0 var(--dark);transition:0.13s;
+}
+.ctrl-btn:active{transform:translate(1px,1px);box-shadow:1px 1px 0 var(--dark);}
+.ctrl-n{font-size:24px;font-weight:900;color:var(--dark);min-width:28px;text-align:center;}
+.dots{display:flex;flex-wrap:wrap;gap:7px;}
+.dot{
+  width:30px;height:30px;border-radius:50%;
+  border:2px solid var(--dark);background:var(--cream);
+  display:flex;align-items:center;justify-content:center;
+  font-size:14px;transition:all 0.3s cubic-bezier(.34,1.4,.64,1);
+}
+.dot.on{background:var(--pink);border-color:var(--pink);box-shadow:2px 2px 0 var(--dark);}
+.dot.on::after{content:'💅';}
+.dot:not(.on)::after{content:'·';font-size:22px;color:rgba(0,0,0,0.2);}
+
+/* section label */
+.sec-lbl{
+  font-size:11px;font-weight:900;letter-spacing:0.1em;text-transform:uppercase;
+  color:var(--mid);margin:20px 0 10px 2px;
+  display:flex;align-items:center;justify-content:space-between;
+}
+.refresh-btn{
+  font-size:11px;font-weight:800;cursor:pointer;
+  border:1.5px solid var(--dark);border-radius:8px;
+  background:transparent;padding:4px 10px;color:var(--dark);font-family:inherit;
+  transition:0.13s;
+}
+.refresh-btn:hover{background:var(--card);}
+
+/* booking card */
+.bcard{
+  background:var(--card);border:2px solid var(--dark);border-radius:var(--r);
+  box-shadow:3px 3px 0 var(--dark);padding:18px 20px;margin-bottom:12px;
+  transition:opacity 0.3s;
+}
+.bcard.done{opacity:0.5;background:var(--green-bg);border-color:rgba(30,180,100,0.5);box-shadow:none;}
+.bc-top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:12px;gap:10px;}
+.bc-date{font-size:15px;font-weight:900;color:var(--dark);}
+.bc-time{font-size:12px;font-weight:700;color:var(--soft);margin-top:2px;}
+.status{font-size:11px;font-weight:900;padding:4px 11px;border-radius:99px;flex-shrink:0;text-transform:uppercase;letter-spacing:0.05em;}
+.s-pending{background:var(--pink);color:#fff;}
+.s-done{background:var(--green-bg);color:var(--green);border:1.5px solid var(--green);}
+.chips{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:12px;}
+.chip{
+  background:var(--cream);border:1.5px solid var(--dark);
+  border-radius:99px;padding:4px 13px;
+  font-size:12px;font-weight:800;color:var(--dark);
+}
+.chip.money{background:var(--pink);color:#fff;border-color:var(--pink);}
+.bc-wish{
+  font-size:13px;color:var(--mid);font-style:italic;line-height:1.65;
+  padding:10px 14px;background:var(--cream);
+  border-radius:10px;border-left:3px solid var(--pink);margin-bottom:12px;
+}
+.bc-acts{display:flex;gap:8px;flex-wrap:wrap;}
+.act{
+  padding:8px 16px;border-radius:10px;font-size:12px;font-weight:900;
+  cursor:pointer;border:2px solid var(--dark);font-family:inherit;
+  text-transform:uppercase;letter-spacing:0.04em;transition:0.13s;
+}
+.a-done{background:var(--dark);color:#fff;box-shadow:2px 2px 0 var(--pink);}
+.a-done:active{transform:translate(1px,1px);box-shadow:none;}
+.a-del{background:transparent;color:var(--dark);}
+.a-del:hover{background:rgba(240,62,110,0.08);}
+
+.empty{text-align:center;padding:44px 20px;color:var(--soft);}
+.empty .ei{font-size:40px;margin-bottom:12px;}
+.empty p{font-size:14px;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="topbar">
+    <div class="logo">LIZ ♡</div>
+    <div class="badge">Admin</div>
+  </div>
+
+  <div class="page-title">LIZ'S<br><em>BOOKINGS</em></div>
+  <p class="page-sub">只有你看得到這個頁面 ♡</p>
+
+  <div class="stats">
+    <div class="stat"><div class="stat-n" id="sTotal">0</div><div class="stat-l">總預約</div></div>
+    <div class="stat"><div class="stat-n pink" id="sPending">0</div><div class="stat-l">待處理</div></div>
+    <div class="stat"><div class="stat-n" id="sStamps">12</div><div class="stat-l">剩餘次數</div></div>
+  </div>
+
+  <div class="stamp-card">
+    <div class="sc-row">
+      <div class="sc-info">
+        <div class="ttl">集點管理</div>
+        <div class="sub">幫 Liz 儲值或扣除次數</div>
+      </div>
+      <div class="ctrl">
+        <button class="ctrl-btn" onclick="adj(-1)">−</button>
+        <div class="ctrl-n" id="ctrlN">12</div>
+        <button class="ctrl-btn" onclick="adj(1)">+</button>
+      </div>
+    </div>
+    <div class="dots" id="dots"></div>
+  </div>
+
+  <div class="sec-lbl">
+    <span>預約紀錄</span>
+    <button class="refresh-btn" onclick="render()">↻ 重新整理</button>
+  </div>
+  <div id="blist"></div>
+</div>
+
+<script>
+function getData(){return JSON.parse(localStorage.getItem('lizData')||'{"stamps":12,"bookings":[]}');}
+function saveData(d){localStorage.setItem('lizData',JSON.stringify(d));}
+
+function render(){
+  const d=getData();
+  const stamps=Math.max(0,Math.min(12,d.stamps??12));
+  const bookings=(d.bookings||[]).slice().sort((a,b)=>b.id-a.id);
+  document.getElementById('sTotal').textContent=bookings.length;
+  document.getElementById('sPending').textContent=bookings.filter(b=>!b.done).length;
+  document.getElementById('sStamps').textContent=stamps;
+  document.getElementById('ctrlN').textContent=stamps;
+  const dotsEl=document.getElementById('dots');
+  dotsEl.innerHTML='';
+  for(let i=0;i<12;i++){const el=document.createElement('div');el.className='dot'+(i<stamps?' on':'');dotsEl.appendChild(el);}
+  const list=document.getElementById('blist');
+  if(!bookings.length){list.innerHTML='<div class="empty"><div class="ei">🌸</div><p>等 Liz 來預約吧 ♡</p></div>';return;}
+  list.innerHTML=bookings.map(b=>{
+    const badge=b.done?'<span class="status s-done">✓ 完成</span>':'<span class="status s-pending">待安排</span>';
+    const wish=b.wish?`<div class="bc-wish">「${b.wish}」</div>`:'';
+    const doneBtn=!b.done?`<button class="act a-done" onclick="markDone(${b.id})">✓ 完成 (−1次)</button>`:'';
+    return `<div class="bcard ${b.done?'done':''}" id="bc${b.id}">
+      <div class="bc-top"><div><div class="bc-date">${b.date}</div><div class="bc-time">${b.time}</div></div>${badge}</div>
+      <div class="chips">
+        <span class="chip">📐 ${b.length||'—'}</span>
+        <span class="chip">🎨 ${b.style||'—'}</span>
+        <span class="chip money">NT$ ${(b.budget||0).toLocaleString()}</span>
+      </div>
+      ${wish}
+      <div class="bc-acts">${doneBtn}<button class="act a-del" onclick="del(${b.id})">🗑 刪除</button></div>
+    </div>`;
+  }).join('');
+}
+function adj(delta){const d=getData();d.stamps=Math.max(0,Math.min(12,(d.stamps??12)+delta));saveData(d);render();}
+function markDone(id){const d=getData();const b=d.bookings.find(x=>x.id===id);if(b&&!b.done){b.done=true;d.stamps=Math.max(0,(d.stamps??12)-1);saveData(d);render();}}
+function del(id){if(!confirm('確定刪除？'))return;const d=getData();d.bookings=d.bookings.filter(x=>x.id!==id);saveData(d);render();}
+render();
+</script>
+</body>
+</html>

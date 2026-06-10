@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Liz's Pass ♡</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+:root{--cream:#f0ebe0;--pink:#f03e6e;--dark:#1a1a1a;--mid:#555;--soft:#999;--r:18px;}
+html{background:var(--cream);}
+body{min-height:100vh;font-family:-apple-system,"SF Pro Display","PingFang TC",sans-serif;background:var(--cream);display:flex;justify-content:center;padding:0 0 80px;}
+.wrap{width:100%;max-width:420px;padding:0 20px;}
+
+.topbar{display:flex;align-items:center;justify-content:space-between;padding:24px 0 0;}
+.logo{font-size:15px;font-weight:900;letter-spacing:0.04em;background:var(--dark);color:#fff;padding:6px 14px;border-radius:99px;}
+.heart{font-size:20px;animation:beat 1.5s ease-in-out infinite;}
+@keyframes beat{0%,100%{transform:scale(1);}50%{transform:scale(1.18);}}
+
+.hero{padding:36px 0 28px;}
+.hero-eyebrow{font-size:11px;font-weight:800;letter-spacing:0.12em;text-transform:uppercase;color:var(--pink);margin-bottom:10px;}
+.hero h1{font-size:40px;font-weight:900;line-height:1.0;color:var(--dark);letter-spacing:-1px;text-transform:uppercase;margin-bottom:10px;}
+.hero h1 em{font-style:normal;color:var(--pink);}
+.hero-sub{font-size:13px;color:var(--mid);line-height:1.65;max-width:260px;}
+
+.section-label{font-size:11px;font-weight:800;letter-spacing:0.1em;text-transform:uppercase;color:var(--soft);margin:28px 0 12px 2px;}
+
+.services{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+
+.svc-card{
+  background:#fff;border:2px solid var(--dark);border-radius:var(--r);
+  box-shadow:3px 3px 0 var(--dark);
+  padding:20px 16px;cursor:pointer;
+  text-decoration:none;
+  display:block;
+  transition:transform 0.13s,box-shadow 0.13s;
+  position:relative;overflow:hidden;
+}
+.svc-card:active{transform:translate(2px,2px);box-shadow:1px 1px 0 var(--dark);}
+.svc-card.locked{cursor:default;opacity:0.75;}
+.svc-card.locked:active{transform:none;box-shadow:3px 3px 0 var(--dark);}
+
+.svc-icon{font-size:34px;margin-bottom:12px;display:block;line-height:1;}
+.svc-name{font-size:15px;font-weight:900;color:var(--dark);text-transform:uppercase;letter-spacing:0.02em;margin-bottom:4px;}
+.svc-desc{font-size:11px;color:var(--soft);line-height:1.5;}
+
+.svc-card.active .svc-name{color:var(--pink);}
+.svc-card.active{border-color:var(--pink);box-shadow:3px 3px 0 var(--pink);}
+
+.lock-tag{
+  position:absolute;top:12px;right:12px;
+  font-size:10px;font-weight:800;letter-spacing:0.06em;text-transform:uppercase;
+  background:var(--dark);color:#fff;
+  padding:3px 8px;border-radius:6px;
+}
+
+.coming-soon-card{
+  background:#fff;border:2px solid var(--dark);border-radius:var(--r);
+  box-shadow:4px 4px 0 var(--dark);
+  padding:22px 20px;margin-top:28px;
+  text-align:center;
+}
+.cs-emoji{font-size:32px;margin-bottom:10px;}
+.cs-title{font-size:18px;font-weight:900;text-transform:uppercase;color:var(--dark);margin-bottom:6px;}
+.cs-sub{font-size:12px;color:var(--soft);line-height:1.6;}
+.cs-sub strong{color:var(--pink);font-weight:800;}
+
+.footer{text-align:center;margin-top:36px;font-size:11px;color:var(--soft);letter-spacing:0.04em;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="topbar">
+    <div class="logo">LIZ ♡</div>
+    <span class="heart">💖</span>
+  </div>
+
+  <div class="hero">
+    <div class="hero-eyebrow">專屬集點卡系統</div>
+    <h1>LIZ'S<br><em>PASS</em></h1>
+    <p class="hero-sub">每一次的寵愛，都值得被記住。<br>選擇你想要的服務，開始預約吧 ♡</p>
+  </div>
+
+  <div class="section-label">服務項目</div>
+
+  <div class="services">
+
+    <a class="svc-card active" href="nail.html">
+      <span class="svc-icon">💅</span>
+      <div class="svc-name">指甲</div>
+      <div class="svc-desc">美甲預約<br>12 次集點卡</div>
+    </a>
+
+    <div class="svc-card locked" onclick="showComing()">
+      <span class="lock-tag">即將開放</span>
+      <span class="svc-icon">💇‍♀️</span>
+      <div class="svc-name">美髮</div>
+      <div class="svc-desc">造型剪髮<br>染髮燙髮</div>
+    </div>
+
+    <div class="svc-card locked" onclick="showComing()">
+      <span class="lock-tag">即將開放</span>
+      <span class="svc-icon">💆‍♀️</span>
+      <div class="svc-name">按摩</div>
+      <div class="svc-desc">全身放鬆<br>舒壓療程</div>
+    </div>
+
+    <div class="svc-card locked" onclick="showComing()">
+      <span class="lock-tag">即將開放</span>
+      <span class="svc-icon">✈️</span>
+      <div class="svc-name">出去玩</div>
+      <div class="svc-desc">約會行程<br>旅遊規劃</div>
+    </div>
+
+  </div>
+
+  <div class="coming-soon-card" id="comingCard" style="display:none;">
+    <div class="cs-emoji">🚧</div>
+    <div class="cs-title">尚未開放</div>
+    <div class="cs-sub">敬請期待<br><strong>蕭瑞佑的傑作</strong><br>即將登場 ✦</div>
+  </div>
+
+  <p class="footer">MADE WITH ♡ BY 蕭瑞佑</p>
+
+</div>
+<script>
+let comingVisible = false;
+function showComing(){
+  const card = document.getElementById('comingCard');
+  comingVisible = !comingVisible;
+  card.style.display = comingVisible ? 'block' : 'none';
+  if(comingVisible) card.scrollIntoView({behavior:'smooth', block:'center'});
+}
+</script>
+</body>
+</html>
