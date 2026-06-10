@@ -63,23 +63,21 @@ body{min-height:100vh;font-family:-apple-system,"SF Pro Display","PingFang TC",s
 <body>
 <div class="wrap">
   <div class="topbar">
-    <div class="logo">LIZ ♡</div>
+    <div class="logo">LIZ</div>
     <div class="badge">Admin</div>
   </div>
   <div class="page-title">LIZ'S<br><em>BOOKINGS</em></div>
-  <p class="page-sub">只有你看得到這個頁面 ♡</p>
-
+  <p class="page-sub">只有你看得到這個頁面</p>
   <div class="stats">
     <div class="stat"><div class="stat-n" id="sTotal">—</div><div class="stat-l">總預約</div></div>
     <div class="stat"><div class="stat-n pink" id="sPending">—</div><div class="stat-l">待處理</div></div>
     <div class="stat"><div class="stat-n" id="sStamps">—</div><div class="stat-l">剩餘次數</div></div>
   </div>
-
   <div class="stamp-card">
     <div class="sc-row">
       <div class="sc-info">
         <div class="ttl">集點管理</div>
-        <div class="sub">調整後自動同步到 Liz 的頁面 ✓</div>
+        <div class="sub">調整後自動同步到 Liz 的頁面</div>
       </div>
       <div class="ctrl">
         <button class="ctrl-btn" onclick="adj(-1)">−</button>
@@ -90,108 +88,65 @@ body{min-height:100vh;font-family:-apple-system,"SF Pro Display","PingFang TC",s
     <div class="dots" id="dots"></div>
     <div class="saving" id="savingMsg"></div>
   </div>
-
   <div class="sec-lbl">
     <span>預約紀錄</span>
     <button class="refresh-btn" onclick="loadAll()">↻ 重新整理</button>
   </div>
   <div id="blist"><div class="loading"><div class="spinner"></div><br>載入中...</div></div>
 </div>
-
 <script>
 const SHEET_URL = 'https://script.google.com/macros/s/AKfycbwourOV2lxD0dFBHKmV5t_Vmzn4vsOskaCXnMFXRbd5LOSQJbYJ8b2NQ1QFpXwdeCTi/exec';
 let stamps = 12;
 let saveTimer = null;
-
-async function loadAll(){
-  await loadStamps();
-  await loadBookings();
-}
-
+async function loadAll(){await loadStamps();await loadBookings();}
 async function loadStamps(){
-  try{
-    const res = await fetch(SHEET_URL+'?action=getStamps');
-    const data = await res.json();
-    stamps = data.stamps ?? 12;
-    renderStamps();
-  }catch(e){}
+  try{const res=await fetch(SHEET_URL+'?action=getStamps');const data=await res.json();stamps=data.stamps??12;renderStamps();}catch(e){}
 }
-
 function renderStamps(){
-  document.getElementById('ctrlN').textContent = stamps;
-  document.getElementById('sStamps').textContent = stamps;
-  const dots = document.getElementById('dots');
-  dots.innerHTML='';
-  for(let i=0;i<12;i++){
-    const el=document.createElement('div');
-    el.className='dot'+(i<stamps?' on':'');
-    dots.appendChild(el);
-  }
+  document.getElementById('ctrlN').textContent=stamps;
+  document.getElementById('sStamps').textContent=stamps;
+  const dots=document.getElementById('dots');dots.innerHTML='';
+  for(let i=0;i<12;i++){const el=document.createElement('div');el.className='dot'+(i<stamps?' on':'');dots.appendChild(el);}
 }
-
 function adj(delta){
-  stamps = Math.max(0, Math.min(12, stamps+delta));
-  renderStamps();
-  // debounce — 存到 Sheets
+  stamps=Math.max(0,Math.min(12,stamps+delta));renderStamps();
   clearTimeout(saveTimer);
   document.getElementById('savingMsg').textContent='儲存中...';
-  saveTimer = setTimeout(async ()=>{
-    try{
-      await fetch(SHEET_URL, {method:'POST', body:JSON.stringify({action:'setStamps', stamps})});
-      document.getElementById('savingMsg').textContent='✓ 已同步到 Liz 的頁面';
-      setTimeout(()=>document.getElementById('savingMsg').textContent='', 2500);
-    }catch(e){
-      document.getElementById('savingMsg').textContent='⚠️ 同步失敗，請重試';
-    }
-  }, 800);
+  saveTimer=setTimeout(async()=>{
+    try{await fetch(SHEET_URL,{method:'POST',body:JSON.stringify({action:'setStamps',stamps})});
+    document.getElementById('savingMsg').textContent='✓ 已同步';
+    setTimeout(()=>document.getElementById('savingMsg').textContent='',2500);}
+    catch(e){document.getElementById('savingMsg').textContent='⚠️ 同步失敗，請重試';}
+  },800);
 }
-
 async function loadBookings(){
   document.getElementById('blist').innerHTML='<div class="loading"><div class="spinner"></div><br>載入中...</div>';
   try{
-    const res = await fetch(SHEET_URL+'?action=getBookings');
-    const data = await res.json();
-    const rows = (data.rows||[]).slice(1).reverse();
-    document.getElementById('sTotal').textContent = rows.length;
-    const doneSet = JSON.parse(localStorage.getItem('lizDone')||'[]');
-    document.getElementById('sPending').textContent = rows.filter((_,i)=>!doneSet.includes(i)).length;
-
-    if(!rows.length){
-      document.getElementById('blist').innerHTML='<div class="empty"><div class="ei">🌸</div><p>等 Liz 來預約吧 ♡</p></div>';
-      return;
-    }
-    document.getElementById('blist').innerHTML = rows.map((row,idx)=>{
-      const isDone = doneSet.includes(idx);
-      const wish = row[6]?`<div class="bc-wish">「${row[6]}」</div>`:'';
-      const badge = isDone?'<span class="status s-done">✓ 完成</span>':'<span class="status s-pending">待安排</span>';
-      const doneBtn = !isDone?`<button class="act a-done" onclick="markDone(${idx})">✓ 完成 (−1次)</button>`:'';
+    const res=await fetch(SHEET_URL+'?action=getBookings');
+    const data=await res.json();
+    const rows=(data.rows||[]).slice(1).reverse();
+    document.getElementById('sTotal').textContent=rows.length;
+    const doneSet=JSON.parse(localStorage.getItem('lizDone')||'[]');
+    document.getElementById('sPending').textContent=rows.filter((_,i)=>!doneSet.includes(i)).length;
+    if(!rows.length){document.getElementById('blist').innerHTML='<div class="empty"><div class="ei">🌸</div><p>等 Liz 來預約吧</p></div>';return;}
+    document.getElementById('blist').innerHTML=rows.map((row,idx)=>{
+      const isDone=doneSet.includes(idx);
+      const wish=row[6]?`<div class="bc-wish">「${row[6]}」</div>`:'';
+      const badge=isDone?'<span class="status s-done">✓ 完成</span>':'<span class="status s-pending">待安排</span>';
+      const doneBtn=!isDone?`<button class="act a-done" onclick="markDone(${idx})">✓ 完成 (−1次)</button>`:'';
       return `<div class="bcard ${isDone?'done':''}">
         <div class="bc-top"><div><div class="bc-date">${row[1]||'—'}</div><div class="bc-time">${row[2]||'—'}</div></div>${badge}</div>
-        <div class="chips">
-          <span class="chip">📐 ${row[3]||'—'}</span>
-          <span class="chip">🎨 ${row[4]||'—'}</span>
-          <span class="chip money">NT$ ${parseInt(row[5]||0).toLocaleString()}</span>
-        </div>
-        ${wish}
-        <div class="bc-acts">${doneBtn}</div>
+        <div class="chips"><span class="chip">📐 ${row[3]||'—'}</span><span class="chip">🎨 ${row[4]||'—'}</span><span class="chip money">NT$ ${parseInt(row[5]||0).toLocaleString()}</span></div>
+        ${wish}<div class="bc-acts">${doneBtn}</div>
       </div>`;
     }).join('');
-  }catch(e){
-    document.getElementById('blist').innerHTML='<div class="empty"><div class="ei">⚠️</div><p>載入失敗，請重試</p></div>';
-  }
+  }catch(e){document.getElementById('blist').innerHTML='<div class="empty"><div class="ei">⚠️</div><p>載入失敗，請重試</p></div>';}
 }
-
 function markDone(idx){
-  const doneSet = JSON.parse(localStorage.getItem('lizDone')||'[]');
-  if(!doneSet.includes(idx)){
-    doneSet.push(idx);
-    localStorage.setItem('lizDone', JSON.stringify(doneSet));
-    stamps = Math.max(0, stamps-1);
-    fetch(SHEET_URL,{method:'POST',body:JSON.stringify({action:'setStamps',stamps})});
-  }
+  const doneSet=JSON.parse(localStorage.getItem('lizDone')||'[]');
+  if(!doneSet.includes(idx)){doneSet.push(idx);localStorage.setItem('lizDone',JSON.stringify(doneSet));stamps=Math.max(0,stamps-1);fetch(SHEET_URL,{method:'POST',body:JSON.stringify({action:'setStamps',stamps})});}
   loadAll();
 }
-
 loadAll();
 </script>
 </body>

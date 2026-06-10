@@ -3,22 +3,24 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>Liz's Pass</title>
+<title>好棒棒東東</title>
+<link rel="manifest" href="manifest.json">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="好棒棒東東">
+<link rel="apple-touch-icon" href="icon.svg">
+<meta name="theme-color" content="#f03e6e">
 <style>
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
 :root{--cream:#f0ebe0;--pink:#f03e6e;--dark:#1a1a1a;--mid:#555;--soft:#999;--r:18px;}
 html{background:var(--cream);}
 body{min-height:100vh;font-family:-apple-system,"SF Pro Display","PingFang TC",sans-serif;background:var(--cream);display:flex;justify-content:center;padding:0 0 80px;overflow-x:hidden;}
 .wrap{width:100%;max-width:420px;padding:0 20px;}
-
-/* TOPBAR */
 .topbar{display:flex;align-items:center;justify-content:space-between;padding:24px 0 0;}
 .logo{font-size:15px;font-weight:900;background:var(--dark);color:#fff;padding:6px 14px;border-radius:99px;}
 .menu-btn{width:40px;height:40px;border:2px solid var(--dark);border-radius:12px;background:#fff;box-shadow:2px 2px 0 var(--dark);cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;transition:0.13s;}
 .menu-btn:active{transform:translate(1px,1px);box-shadow:1px 1px 0 var(--dark);}
 .menu-btn span{display:block;width:16px;height:2px;background:var(--dark);border-radius:2px;}
-
-/* DRAWER */
 .overlay{position:fixed;inset:0;background:rgba(0,0,0,0);pointer-events:none;z-index:99;transition:background 0.3s;}
 .overlay.open{background:rgba(0,0,0,0.35);pointer-events:all;}
 .drawer{position:fixed;top:0;right:-290px;width:270px;height:100%;background:#fff;border-left:2px solid var(--dark);box-shadow:-4px 0 0 var(--dark);z-index:100;transition:right 0.3s cubic-bezier(.34,1.2,.64,1);display:flex;flex-direction:column;}
@@ -30,7 +32,7 @@ body{min-height:100vh;font-family:-apple-system,"SF Pro Display","PingFang TC",s
 .close-btn:active{transform:translate(1px,1px);box-shadow:none;}
 .drawer-menu{flex:1;padding:20px 14px;}
 .drawer-label{font-size:10px;font-weight:900;letter-spacing:0.1em;text-transform:uppercase;color:var(--soft);margin-bottom:10px;padding:0 6px;}
-.mi{display:flex;align-items:center;gap:12px;padding:13px 14px;border-radius:14px;cursor:pointer;text-decoration:none;margin-bottom:6px;border:2px solid transparent;transition:0.13s;position:relative;}
+.mi{display:flex;align-items:center;gap:12px;padding:13px 14px;border-radius:14px;cursor:pointer;text-decoration:none;margin-bottom:6px;border:2px solid transparent;transition:0.13s;}
 .mi.cur{background:#fff;border-color:var(--dark);box-shadow:2px 2px 0 var(--dark);}
 .mi.cur .mi-name{color:var(--pink);}
 .mi.locked{opacity:0.5;cursor:default;}
@@ -38,17 +40,12 @@ body{min-height:100vh;font-family:-apple-system,"SF Pro Display","PingFang TC",s
 .mi-name{font-size:14px;font-weight:800;color:var(--dark);text-transform:uppercase;}
 .mi-tag{margin-left:auto;font-size:9px;font-weight:900;text-transform:uppercase;background:var(--dark);color:#fff;padding:2px 7px;border-radius:5px;}
 .drawer-footer{padding:18px 20px;border-top:2px solid var(--dark);font-size:11px;color:var(--soft);text-align:center;}
-
-/* HERO */
 .hero{padding:36px 0 24px;}
 .hero-eyebrow{font-size:11px;font-weight:800;letter-spacing:0.12em;text-transform:uppercase;color:var(--pink);margin-bottom:10px;}
 .hero h1{font-size:42px;font-weight:900;line-height:1.0;color:var(--dark);letter-spacing:-1px;text-transform:uppercase;margin-bottom:10px;}
 .hero h1 em{font-style:normal;color:var(--pink);}
 .hero-sub{font-size:13px;color:var(--mid);line-height:1.65;max-width:260px;}
-
 .section-label{font-size:11px;font-weight:800;letter-spacing:0.1em;text-transform:uppercase;color:var(--soft);margin:28px 0 12px 2px;}
-
-/* CARDS */
 .cards{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
 .card{background:#fff;border:2px solid var(--dark);border-radius:var(--r);box-shadow:3px 3px 0 var(--dark);padding:20px 16px;cursor:pointer;text-decoration:none;display:block;transition:transform 0.13s,box-shadow 0.13s;position:relative;overflow:hidden;}
 .card:active{transform:translate(2px,2px);box-shadow:1px 1px 0 var(--dark);}
@@ -60,19 +57,15 @@ body{min-height:100vh;font-family:-apple-system,"SF Pro Display","PingFang TC",s
 .c-name{font-size:15px;font-weight:900;color:var(--dark);text-transform:uppercase;letter-spacing:0.02em;margin-bottom:4px;}
 .c-desc{font-size:11px;color:var(--soft);line-height:1.5;}
 .lock-tag{position:absolute;top:12px;right:12px;font-size:10px;font-weight:800;text-transform:uppercase;background:var(--dark);color:#fff;padding:3px 8px;border-radius:6px;}
-
-/* COMING SOON */
 .cs-card{background:#fff;border:2px solid var(--dark);border-radius:var(--r);box-shadow:4px 4px 0 var(--dark);padding:22px 20px;margin-top:28px;text-align:center;}
 .cs-emoji{font-size:32px;margin-bottom:10px;}
 .cs-title{font-size:18px;font-weight:900;text-transform:uppercase;color:var(--dark);margin-bottom:6px;}
 .cs-sub{font-size:12px;color:var(--soft);line-height:1.6;}
 .cs-sub strong{color:var(--pink);font-weight:800;}
-
 .footer{text-align:center;margin-top:36px;font-size:11px;color:var(--soft);}
 </style>
 </head>
 <body>
-
 <div class="overlay" id="overlay" onclick="closeMenu()"></div>
 <div class="drawer" id="drawer">
   <div class="drawer-top">
@@ -81,49 +74,25 @@ body{min-height:100vh;font-family:-apple-system,"SF Pro Display","PingFang TC",s
   </div>
   <div class="drawer-menu">
     <div class="drawer-label">頁面</div>
-    <a class="mi cur" href="index.html">
-      <span class="mi-ico">🏠</span>
-      <span class="mi-name">首頁</span>
-    </a>
-    <a class="mi" href="pass.html">
-      <span class="mi-ico">💳</span>
-      <span class="mi-name">集點卡系統</span>
-    </a>
-    <div class="mi locked">
-      <span class="mi-ico">🗺️</span>
-      <span class="mi-name">旅遊小筆記</span>
-      <span class="mi-tag">即將開放</span>
-    </div>
-    <div class="mi locked">
-      <span class="mi-ico">⚙️</span>
-      <span class="mi-name">設定</span>
-      <span class="mi-tag">即將開放</span>
-    </div>
-    <div class="mi locked">
-      <span class="mi-ico">✨</span>
-      <span class="mi-name">更多</span>
-      <span class="mi-tag">即將開放</span>
-    </div>
+    <a class="mi cur" href="index.html"><span class="mi-ico">🏠</span><span class="mi-name">首頁</span></a>
+    <a class="mi" href="pass.html"><span class="mi-ico">💳</span><span class="mi-name">集點卡系統</span></a>
+    <div class="mi locked"><span class="mi-ico">🗺️</span><span class="mi-name">旅遊小筆記</span><span class="mi-tag">即將開放</span></div>
+    <div class="mi locked"><span class="mi-ico">⚙️</span><span class="mi-name">設定</span><span class="mi-tag">即將開放</span></div>
+    <div class="mi locked"><span class="mi-ico">✨</span><span class="mi-name">更多</span><span class="mi-tag">即將開放</span></div>
   </div>
-  <div class="drawer-footer">made by ryan ♡</div>
+  <div class="drawer-footer">made by ryan</div>
 </div>
-
 <div class="wrap">
   <div class="topbar">
-    <div class="logo">LIZ ♡</div>
-    <button class="menu-btn" onclick="openMenu()">
-      <span></span><span></span><span></span>
-    </button>
+    <div class="logo">LIZ</div>
+    <button class="menu-btn" onclick="openMenu()"><span></span><span></span><span></span></button>
   </div>
-
   <div class="hero">
-    <div class="hero-eyebrow"></div>
+    <div class="hero-eyebrow">你的專屬空間</div>
     <h1>LIZ'S<br><em>PASS</em></h1>
-    <p class="hero-sub">選擇你想要的服務吧 </p>
+    <p class="hero-sub">選擇你想要的服務吧</p>
   </div>
-
   <div class="section-label">所有服務</div>
-
   <div class="cards">
     <a class="card open" href="pass.html">
       <span class="c-ico">💳</span>
@@ -146,19 +115,16 @@ body{min-height:100vh;font-family:-apple-system,"SF Pro Display","PingFang TC",s
       <span class="lock-tag">即將開放</span>
       <span class="c-ico">✨</span>
       <div class="c-name">更多</div>
-      <div class="c-desc">ryan的<br>下一個傑作</div>
+      <div class="c-desc">ryan 的<br>下一個傑作</div>
     </div>
   </div>
-
   <div class="cs-card" id="comingCard" style="display:none;">
     <div class="cs-emoji">🚧</div>
     <div class="cs-title">尚未開放</div>
-    <div class="cs-sub">敬請期待<br><strong>ryan的傑作</strong><br>即將登場 ✦</div>
+    <div class="cs-sub">敬請期待<br><strong>ryan 的傑作</strong><br>即將登場 ✦</div>
   </div>
-
   <p class="footer">made by ryan</p>
 </div>
-
 <script>
 function openMenu(){document.getElementById('drawer').classList.add('open');document.getElementById('overlay').classList.add('open');document.body.style.overflow='hidden';}
 function closeMenu(){document.getElementById('drawer').classList.remove('open');document.getElementById('overlay').classList.remove('open');document.body.style.overflow='';}
