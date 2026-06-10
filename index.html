@@ -3,140 +3,167 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>Liz's Pass 💅</title>
-<meta name="description" content="要好好保管喔，這是屬於你的 ♡">
-<meta property="og:title" content="Liz's Pass 💅">
-<meta property="og:description" content="要好好保管喔，這是屬於你的 ♡">
-<meta property="og:type" content="website">
-<meta property="og:url" content="https://yoyo13220060926-dotcom.github.io/liz-pass/">
-<meta name="theme-color" content="#f0ebe0">
+<title>Liz's Pass</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
 :root{--cream:#f0ebe0;--pink:#f03e6e;--dark:#1a1a1a;--mid:#555;--soft:#999;--r:18px;}
 html{background:var(--cream);}
-body{min-height:100vh;font-family:-apple-system,"SF Pro Display","PingFang TC",sans-serif;background:var(--cream);display:flex;justify-content:center;padding:0 0 80px;}
+body{min-height:100vh;font-family:-apple-system,"SF Pro Display","PingFang TC",sans-serif;background:var(--cream);display:flex;justify-content:center;padding:0 0 80px;overflow-x:hidden;}
 .wrap{width:100%;max-width:420px;padding:0 20px;}
 
+/* TOPBAR */
 .topbar{display:flex;align-items:center;justify-content:space-between;padding:24px 0 0;}
-.logo{font-size:15px;font-weight:900;letter-spacing:0.04em;background:var(--dark);color:#fff;padding:6px 14px;border-radius:99px;}
-.heart{font-size:20px;animation:beat 1.5s ease-in-out infinite;}
-@keyframes beat{0%,100%{transform:scale(1);}50%{transform:scale(1.18);}}
+.logo{font-size:15px;font-weight:900;background:var(--dark);color:#fff;padding:6px 14px;border-radius:99px;}
+.menu-btn{width:40px;height:40px;border:2px solid var(--dark);border-radius:12px;background:#fff;box-shadow:2px 2px 0 var(--dark);cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;transition:0.13s;}
+.menu-btn:active{transform:translate(1px,1px);box-shadow:1px 1px 0 var(--dark);}
+.menu-btn span{display:block;width:16px;height:2px;background:var(--dark);border-radius:2px;}
 
-.hero{padding:36px 0 28px;}
+/* DRAWER */
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,0);pointer-events:none;z-index:99;transition:background 0.3s;}
+.overlay.open{background:rgba(0,0,0,0.35);pointer-events:all;}
+.drawer{position:fixed;top:0;right:-290px;width:270px;height:100%;background:#fff;border-left:2px solid var(--dark);box-shadow:-4px 0 0 var(--dark);z-index:100;transition:right 0.3s cubic-bezier(.34,1.2,.64,1);display:flex;flex-direction:column;}
+.drawer.open{right:0;}
+.drawer-top{display:flex;align-items:center;justify-content:space-between;padding:28px 20px 20px;border-bottom:2px solid var(--dark);}
+.drawer-brand{font-size:13px;font-weight:900;text-transform:uppercase;letter-spacing:0.04em;color:var(--dark);}
+.drawer-brand em{font-style:normal;color:var(--pink);}
+.close-btn{width:36px;height:36px;border:2px solid var(--dark);border-radius:10px;background:var(--cream);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:900;box-shadow:2px 2px 0 var(--dark);transition:0.13s;}
+.close-btn:active{transform:translate(1px,1px);box-shadow:none;}
+.drawer-menu{flex:1;padding:20px 14px;}
+.drawer-label{font-size:10px;font-weight:900;letter-spacing:0.1em;text-transform:uppercase;color:var(--soft);margin-bottom:10px;padding:0 6px;}
+.mi{display:flex;align-items:center;gap:12px;padding:13px 14px;border-radius:14px;cursor:pointer;text-decoration:none;margin-bottom:6px;border:2px solid transparent;transition:0.13s;position:relative;}
+.mi.cur{background:#fff;border-color:var(--dark);box-shadow:2px 2px 0 var(--dark);}
+.mi.cur .mi-name{color:var(--pink);}
+.mi.locked{opacity:0.5;cursor:default;}
+.mi-ico{font-size:20px;width:26px;text-align:center;}
+.mi-name{font-size:14px;font-weight:800;color:var(--dark);text-transform:uppercase;}
+.mi-tag{margin-left:auto;font-size:9px;font-weight:900;text-transform:uppercase;background:var(--dark);color:#fff;padding:2px 7px;border-radius:5px;}
+.drawer-footer{padding:18px 20px;border-top:2px solid var(--dark);font-size:11px;color:var(--soft);text-align:center;}
+
+/* HERO */
+.hero{padding:36px 0 24px;}
 .hero-eyebrow{font-size:11px;font-weight:800;letter-spacing:0.12em;text-transform:uppercase;color:var(--pink);margin-bottom:10px;}
-.hero h1{font-size:40px;font-weight:900;line-height:1.0;color:var(--dark);letter-spacing:-1px;text-transform:uppercase;margin-bottom:10px;}
+.hero h1{font-size:42px;font-weight:900;line-height:1.0;color:var(--dark);letter-spacing:-1px;text-transform:uppercase;margin-bottom:10px;}
 .hero h1 em{font-style:normal;color:var(--pink);}
 .hero-sub{font-size:13px;color:var(--mid);line-height:1.65;max-width:260px;}
 
 .section-label{font-size:11px;font-weight:800;letter-spacing:0.1em;text-transform:uppercase;color:var(--soft);margin:28px 0 12px 2px;}
 
-.services{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+/* CARDS */
+.cards{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.card{background:#fff;border:2px solid var(--dark);border-radius:var(--r);box-shadow:3px 3px 0 var(--dark);padding:20px 16px;cursor:pointer;text-decoration:none;display:block;transition:transform 0.13s,box-shadow 0.13s;position:relative;overflow:hidden;}
+.card:active{transform:translate(2px,2px);box-shadow:1px 1px 0 var(--dark);}
+.card.open{border-color:var(--pink);box-shadow:3px 3px 0 var(--pink);}
+.card.open .c-name{color:var(--pink);}
+.card.locked{opacity:0.65;cursor:default;}
+.card.locked:active{transform:none;box-shadow:3px 3px 0 var(--dark);}
+.c-ico{font-size:34px;margin-bottom:12px;display:block;line-height:1;}
+.c-name{font-size:15px;font-weight:900;color:var(--dark);text-transform:uppercase;letter-spacing:0.02em;margin-bottom:4px;}
+.c-desc{font-size:11px;color:var(--soft);line-height:1.5;}
+.lock-tag{position:absolute;top:12px;right:12px;font-size:10px;font-weight:800;text-transform:uppercase;background:var(--dark);color:#fff;padding:3px 8px;border-radius:6px;}
 
-.svc-card{
-  background:#fff;border:2px solid var(--dark);border-radius:var(--r);
-  box-shadow:3px 3px 0 var(--dark);
-  padding:20px 16px;cursor:pointer;
-  text-decoration:none;
-  display:block;
-  transition:transform 0.13s,box-shadow 0.13s;
-  position:relative;overflow:hidden;
-}
-.svc-card:active{transform:translate(2px,2px);box-shadow:1px 1px 0 var(--dark);}
-.svc-card.locked{cursor:default;opacity:0.75;}
-.svc-card.locked:active{transform:none;box-shadow:3px 3px 0 var(--dark);}
-
-.svc-icon{font-size:34px;margin-bottom:12px;display:block;line-height:1;}
-.svc-name{font-size:15px;font-weight:900;color:var(--dark);text-transform:uppercase;letter-spacing:0.02em;margin-bottom:4px;}
-.svc-desc{font-size:11px;color:var(--soft);line-height:1.5;}
-
-.svc-card.active .svc-name{color:var(--pink);}
-.svc-card.active{border-color:var(--pink);box-shadow:3px 3px 0 var(--pink);}
-
-.lock-tag{
-  position:absolute;top:12px;right:12px;
-  font-size:10px;font-weight:800;letter-spacing:0.06em;text-transform:uppercase;
-  background:var(--dark);color:#fff;
-  padding:3px 8px;border-radius:6px;
-}
-
-.coming-soon-card{
-  background:#fff;border:2px solid var(--dark);border-radius:var(--r);
-  box-shadow:4px 4px 0 var(--dark);
-  padding:22px 20px;margin-top:28px;
-  text-align:center;
-}
+/* COMING SOON */
+.cs-card{background:#fff;border:2px solid var(--dark);border-radius:var(--r);box-shadow:4px 4px 0 var(--dark);padding:22px 20px;margin-top:28px;text-align:center;}
 .cs-emoji{font-size:32px;margin-bottom:10px;}
 .cs-title{font-size:18px;font-weight:900;text-transform:uppercase;color:var(--dark);margin-bottom:6px;}
 .cs-sub{font-size:12px;color:var(--soft);line-height:1.6;}
 .cs-sub strong{color:var(--pink);font-weight:800;}
 
-.footer{text-align:center;margin-top:36px;font-size:11px;color:var(--soft);letter-spacing:0.04em;}
+.footer{text-align:center;margin-top:36px;font-size:11px;color:var(--soft);}
 </style>
 </head>
 <body>
-<div class="wrap">
 
+<div class="overlay" id="overlay" onclick="closeMenu()"></div>
+<div class="drawer" id="drawer">
+  <div class="drawer-top">
+    <div class="drawer-brand">LIZ'S <em>PASS</em></div>
+    <button class="close-btn" onclick="closeMenu()">✕</button>
+  </div>
+  <div class="drawer-menu">
+    <div class="drawer-label">頁面</div>
+    <a class="mi cur" href="index.html">
+      <span class="mi-ico">🏠</span>
+      <span class="mi-name">首頁</span>
+    </a>
+    <a class="mi" href="pass.html">
+      <span class="mi-ico">💳</span>
+      <span class="mi-name">集點卡系統</span>
+    </a>
+    <div class="mi locked">
+      <span class="mi-ico">🗺️</span>
+      <span class="mi-name">旅遊小筆記</span>
+      <span class="mi-tag">即將開放</span>
+    </div>
+    <div class="mi locked">
+      <span class="mi-ico">⚙️</span>
+      <span class="mi-name">設定</span>
+      <span class="mi-tag">即將開放</span>
+    </div>
+    <div class="mi locked">
+      <span class="mi-ico">✨</span>
+      <span class="mi-name">更多</span>
+      <span class="mi-tag">即將開放</span>
+    </div>
+  </div>
+  <div class="drawer-footer">made by ryan ♡</div>
+</div>
+
+<div class="wrap">
   <div class="topbar">
     <div class="logo">LIZ ♡</div>
-    <span class="heart">💖</span>
+    <button class="menu-btn" onclick="openMenu()">
+      <span></span><span></span><span></span>
+    </button>
   </div>
 
   <div class="hero">
-    <div class="hero-eyebrow">專屬集點卡系統</div>
+    <div class="hero-eyebrow">你的專屬空間</div>
     <h1>LIZ'S<br><em>PASS</em></h1>
-    <p class="hero-sub">選擇你想要的服務，開始跟我預約吧 我這邊也會有通知可以收到歐!</p>
+    <p class="hero-sub">這裡是蕭瑞佑幫你做的專屬小天地，選擇你想要的服務吧 ♡</p>
   </div>
 
-  <div class="section-label">服務項目</div>
+  <div class="section-label">所有服務</div>
 
-  <div class="services">
-
-    <a class="svc-card active" href="nail.html">
-      <span class="svc-icon">💅</span>
-      <div class="svc-name">指甲</div>
-      <div class="svc-desc">美甲預約<br>12 次集點卡</div>
+  <div class="cards">
+    <a class="card open" href="pass.html">
+      <span class="c-ico">💳</span>
+      <div class="c-name">集點卡系統</div>
+      <div class="c-desc">美甲 / 美髮<br>按摩 / 出遊</div>
     </a>
-
-    <div class="svc-card locked" onclick="showComing()">
+    <div class="card locked" onclick="showComing()">
       <span class="lock-tag">即將開放</span>
-      <span class="svc-icon">💇‍♀️</span>
-      <div class="svc-name">美髮</div>
-      <div class="svc-desc">造型剪髮<br>染髮燙髮</div>
+      <span class="c-ico">🗺️</span>
+      <div class="c-name">旅遊小筆記</div>
+      <div class="c-desc">行程規劃<br>旅遊路線</div>
     </div>
-
-    <div class="svc-card locked" onclick="showComing()">
+    <div class="card locked" onclick="showComing()">
       <span class="lock-tag">即將開放</span>
-      <span class="svc-icon">💆‍♀️</span>
-      <div class="svc-name">按摩</div>
-      <div class="svc-desc">全身放鬆<br>給按摩店家也可以</div>
+      <span class="c-ico">⚙️</span>
+      <div class="c-name">設定</div>
+      <div class="c-desc">個人設定<br>通知管理</div>
     </div>
-
-    <div class="svc-card locked" onclick="showComing()">
+    <div class="card locked" onclick="showComing()">
       <span class="lock-tag">即將開放</span>
-      <span class="svc-icon">✈️</span>
-      <div class="svc-name">出去玩</div>
-      <div class="svc-desc">約會行程<br>旅遊規劃</div>
+      <span class="c-ico">✨</span>
+      <div class="c-name">更多</div>
+      <div class="c-desc">蕭瑞佑的<br>下一個傑作</div>
     </div>
-
   </div>
 
-  <div class="coming-soon-card" id="comingCard" style="display:none;">
+  <div class="cs-card" id="comingCard" style="display:none;">
     <div class="cs-emoji">🚧</div>
     <div class="cs-title">尚未開放</div>
     <div class="cs-sub">敬請期待<br><strong>蕭瑞佑的傑作</strong><br>即將登場 ✦</div>
   </div>
 
   <p class="footer">made by ryan</p>
-
 </div>
+
 <script>
-let comingVisible = false;
-function showComing(){
-  const card = document.getElementById('comingCard');
-  comingVisible = !comingVisible;
-  card.style.display = comingVisible ? 'block' : 'none';
-  if(comingVisible) card.scrollIntoView({behavior:'smooth', block:'center'});
-}
+function openMenu(){document.getElementById('drawer').classList.add('open');document.getElementById('overlay').classList.add('open');document.body.style.overflow='hidden';}
+function closeMenu(){document.getElementById('drawer').classList.remove('open');document.getElementById('overlay').classList.remove('open');document.body.style.overflow='';}
+let cv=false;
+function showComing(){const c=document.getElementById('comingCard');cv=!cv;c.style.display=cv?'block':'none';if(cv)c.scrollIntoView({behavior:'smooth',block:'center'});}
 </script>
 </body>
 </html>
