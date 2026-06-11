@@ -6,130 +6,193 @@
 <title>好棒棒東東</title>
 <link rel="manifest" href="manifest.json">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
 <meta name="apple-mobile-web-app-title" content="好棒棒東東">
 <link rel="apple-touch-icon" href="icon.svg">
-<meta name="theme-color" content="#f03e6e">
+<meta name="theme-color" content="#f0ebe0">
 <style>
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
-:root{--cream:#f0ebe0;--pink:#f03e6e;--dark:#1a1a1a;--mid:#555;--soft:#999;--r:18px;}
-html{background:var(--cream);}
-body{min-height:100vh;font-family:-apple-system,"SF Pro Display","PingFang TC",sans-serif;background:var(--cream);display:flex;justify-content:center;padding:0 0 80px;overflow-x:hidden;}
-.wrap{width:100%;max-width:420px;padding:0 20px;}
-.topbar{display:flex;align-items:center;justify-content:space-between;padding:24px 0 0;}
-.logo{font-size:15px;font-weight:900;background:var(--dark);color:#fff;padding:6px 14px;border-radius:99px;}
-.menu-btn{width:40px;height:40px;border:2px solid var(--dark);border-radius:12px;background:#fff;box-shadow:2px 2px 0 var(--dark);cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;transition:0.13s;}
-.menu-btn:active{transform:translate(1px,1px);box-shadow:1px 1px 0 var(--dark);}
-.menu-btn span{display:block;width:16px;height:2px;background:var(--dark);border-radius:2px;}
-.overlay{position:fixed;inset:0;background:rgba(0,0,0,0);pointer-events:none;z-index:99;transition:background 0.3s;}
-.overlay.open{background:rgba(0,0,0,0.35);pointer-events:all;}
-.drawer{position:fixed;top:0;right:-290px;width:270px;height:100%;background:#fff;border-left:2px solid var(--dark);box-shadow:-4px 0 0 var(--dark);z-index:100;transition:right 0.3s cubic-bezier(.34,1.2,.64,1);display:flex;flex-direction:column;}
+:root{--bg:#f0ebe0;--dark:#111;--mid:#555;--soft:#aaa;--line:rgba(0,0,0,0.1);}
+html,body{background:var(--bg);}
+body{min-height:100vh;font-family:-apple-system,"SF Pro Text","PingFang TC",sans-serif;display:flex;justify-content:center;overflow-x:hidden;}
+.wrap{width:100%;max-width:430px;}
+
+/* NAV */
+nav{display:flex;align-items:center;justify-content:space-between;padding:52px 24px 0;}
+.nav-logo{font-size:13px;font-weight:800;letter-spacing:0.18em;text-transform:uppercase;color:var(--dark);}
+.nav-menu{display:flex;flex-direction:column;gap:5px;cursor:pointer;padding:4px;}
+.nav-menu span{display:block;width:20px;height:1.5px;background:var(--dark);transition:0.2s;}
+
+/* DRAWER */
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,0);pointer-events:none;z-index:99;transition:background 0.35s;}
+.overlay.open{background:rgba(0,0,0,0.15);pointer-events:all;}
+.drawer{position:fixed;top:0;right:-100%;width:100%;max-width:320px;height:100%;background:var(--bg);z-index:100;transition:right 0.38s cubic-bezier(.77,0,.18,1);display:flex;flex-direction:column;border-left:1px solid var(--line);}
 .drawer.open{right:0;}
-.drawer-top{display:flex;align-items:center;justify-content:space-between;padding:28px 20px 20px;border-bottom:2px solid var(--dark);}
-.drawer-brand{font-size:13px;font-weight:900;text-transform:uppercase;letter-spacing:0.04em;color:var(--dark);}
-.drawer-brand em{font-style:normal;color:var(--pink);}
-.close-btn{width:36px;height:36px;border:2px solid var(--dark);border-radius:10px;background:var(--cream);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:900;box-shadow:2px 2px 0 var(--dark);transition:0.13s;}
-.close-btn:active{transform:translate(1px,1px);box-shadow:none;}
-.drawer-menu{flex:1;padding:20px 14px;}
-.drawer-label{font-size:10px;font-weight:900;letter-spacing:0.1em;text-transform:uppercase;color:var(--soft);margin-bottom:10px;padding:0 6px;}
-.mi{display:flex;align-items:center;gap:12px;padding:13px 14px;border-radius:14px;cursor:pointer;text-decoration:none;margin-bottom:6px;border:2px solid transparent;transition:0.13s;}
-.mi.cur{background:#fff;border-color:var(--dark);box-shadow:2px 2px 0 var(--dark);}
-.mi.cur .mi-name{color:var(--pink);}
-.mi.locked{opacity:0.5;cursor:default;}
-.mi-ico{font-size:20px;width:26px;text-align:center;}
-.mi-name{font-size:14px;font-weight:800;color:var(--dark);text-transform:uppercase;}
-.mi-tag{margin-left:auto;font-size:9px;font-weight:900;text-transform:uppercase;background:var(--dark);color:#fff;padding:2px 7px;border-radius:5px;}
-.drawer-footer{padding:18px 20px;border-top:2px solid var(--dark);font-size:11px;color:var(--soft);text-align:center;}
-.hero{padding:36px 0 24px;}
-.hero-eyebrow{font-size:11px;font-weight:800;letter-spacing:0.12em;text-transform:uppercase;color:var(--pink);margin-bottom:10px;}
-.hero h1{font-size:42px;font-weight:900;line-height:1.0;color:var(--dark);letter-spacing:-1px;text-transform:uppercase;margin-bottom:10px;}
-.hero h1 em{font-style:normal;color:var(--pink);}
-.hero-sub{font-size:13px;color:var(--mid);line-height:1.65;max-width:260px;}
-.section-label{font-size:11px;font-weight:800;letter-spacing:0.1em;text-transform:uppercase;color:var(--soft);margin:28px 0 12px 2px;}
-.cards{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
-.card{background:#fff;border:2px solid var(--dark);border-radius:var(--r);box-shadow:3px 3px 0 var(--dark);padding:20px 16px;cursor:pointer;text-decoration:none;display:block;transition:transform 0.13s,box-shadow 0.13s;position:relative;overflow:hidden;}
-.card:active{transform:translate(2px,2px);box-shadow:1px 1px 0 var(--dark);}
-.card.open{border-color:var(--pink);box-shadow:3px 3px 0 var(--pink);}
-.card.open .c-name{color:var(--pink);}
-.card.locked{opacity:0.65;cursor:default;}
-.card.locked:active{transform:none;box-shadow:3px 3px 0 var(--dark);}
-.c-ico{font-size:34px;margin-bottom:12px;display:block;line-height:1;}
-.c-name{font-size:15px;font-weight:900;color:var(--dark);text-transform:uppercase;letter-spacing:0.02em;margin-bottom:4px;}
-.c-desc{font-size:11px;color:var(--soft);line-height:1.5;}
-.lock-tag{position:absolute;top:12px;right:12px;font-size:10px;font-weight:800;text-transform:uppercase;background:var(--dark);color:#fff;padding:3px 8px;border-radius:6px;}
-.cs-card{background:#fff;border:2px solid var(--dark);border-radius:var(--r);box-shadow:4px 4px 0 var(--dark);padding:22px 20px;margin-top:28px;text-align:center;}
-.cs-emoji{font-size:32px;margin-bottom:10px;}
-.cs-title{font-size:18px;font-weight:900;text-transform:uppercase;color:var(--dark);margin-bottom:6px;}
-.cs-sub{font-size:12px;color:var(--soft);line-height:1.6;}
-.cs-sub strong{color:var(--pink);font-weight:800;}
-.footer{text-align:center;margin-top:36px;font-size:11px;color:var(--soft);}
+.drawer-nav{display:flex;align-items:center;justify-content:space-between;padding:52px 24px 32px;}
+.drawer-logo{font-size:12px;font-weight:800;letter-spacing:0.18em;text-transform:uppercase;color:var(--dark);}
+.close-btn{font-size:18px;color:var(--dark);cursor:pointer;padding:4px;line-height:1;}
+.drawer-items{flex:1;padding:0 24px;}
+.di{display:flex;align-items:center;justify-content:space-between;padding:20px 0;border-bottom:1px solid var(--line);text-decoration:none;cursor:pointer;}
+.di:last-child{border-bottom:none;}
+.di-left{display:flex;align-items:center;gap:14px;}
+.di-ico{font-size:16px;opacity:0.7;}
+.di-name{font-size:13px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--dark);}
+.di.active .di-name{color:var(--dark);}
+.di.locked .di-name{color:var(--soft);}
+.di-arr{font-size:12px;color:var(--soft);}
+.di-tag{font-size:9px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--soft);border:1px solid var(--line);padding:2px 8px;border-radius:3px;}
+.drawer-foot{padding:24px;border-top:1px solid var(--line);font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:var(--soft);}
+
+/* HERO */
+.hero{padding:52px 24px 32px;}
+.hero-label{font-size:10px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:var(--soft);margin-bottom:20px;}
+.hero h1{font-size:52px;font-weight:900;line-height:0.95;letter-spacing:-2px;text-transform:uppercase;color:var(--dark);margin-bottom:24px;}
+.hero-sub{font-size:13px;color:var(--mid);line-height:1.75;letter-spacing:0.02em;border-left:2px solid var(--dark);padding-left:14px;}
+
+/* DIVIDER */
+.divider{height:1px;background:var(--line);margin:0 24px;}
+
+/* SECTION */
+.section-head{display:flex;align-items:center;justify-content:space-between;padding:28px 24px 16px;}
+.section-title{font-size:10px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:var(--soft);}
+
+/* SERVICE LIST */
+.svc-list{padding:0 24px;}
+.svc-item{display:flex;align-items:center;justify-content:space-between;padding:20px 0;border-bottom:1px solid var(--line);text-decoration:none;cursor:pointer;transition:opacity 0.15s;}
+.svc-item:active{opacity:0.6;}
+.svc-item.locked{cursor:default;}
+.svc-item.locked:active{opacity:1;}
+.svc-left{display:flex;align-items:center;gap:16px;}
+.svc-ico{font-size:22px;width:36px;text-align:center;}
+.svc-info{}
+.svc-name{font-size:14px;font-weight:800;letter-spacing:0.06em;text-transform:uppercase;color:var(--dark);margin-bottom:3px;}
+.svc-item.locked .svc-name{color:var(--soft);}
+.svc-desc{font-size:11px;color:var(--soft);letter-spacing:0.02em;}
+.svc-right{display:flex;align-items:center;gap:10px;}
+.svc-tag{font-size:9px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--soft);border:1px solid var(--line);padding:3px 8px;border-radius:3px;}
+.svc-arr{font-size:14px;color:var(--soft);}
+.svc-item.open .svc-arr{color:var(--dark);}
+
+/* COMING SOON */
+.cs-wrap{padding:24px;}
+.cs-box{border:1px solid var(--line);padding:28px 24px;text-align:center;}
+.cs-label{font-size:10px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:var(--soft);margin-bottom:10px;}
+.cs-text{font-size:16px;font-weight:800;letter-spacing:0.04em;text-transform:uppercase;color:var(--dark);line-height:1.5;}
+.cs-text em{font-style:normal;display:block;font-size:11px;font-weight:600;color:var(--soft);letter-spacing:0.1em;margin-top:6px;}
+
+/* FOOTER */
+footer{padding:32px 24px;border-top:1px solid var(--line);font-size:10px;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:var(--soft);}
 </style>
 </head>
 <body>
+
 <div class="overlay" id="overlay" onclick="closeMenu()"></div>
 <div class="drawer" id="drawer">
-  <div class="drawer-top">
-    <div class="drawer-brand">LIZ'S <em>PASS</em></div>
-    <button class="close-btn" onclick="closeMenu()">✕</button>
+  <div class="drawer-nav">
+    <span class="drawer-logo">LIZ'S PASS</span>
+    <span class="close-btn" onclick="closeMenu()">✕</span>
   </div>
-  <div class="drawer-menu">
-    <div class="drawer-label">頁面</div>
-    <a class="mi cur" href="index.html"><span class="mi-ico">🏠</span><span class="mi-name">首頁</span></a>
-    <a class="mi" href="pass.html"><span class="mi-ico">💳</span><span class="mi-name">集點卡系統</span></a>
-    <div class="mi locked"><span class="mi-ico">🗺️</span><span class="mi-name">旅遊小筆記</span><span class="mi-tag">即將開放</span></div>
-    <div class="mi locked"><span class="mi-ico">⚙️</span><span class="mi-name">設定</span><span class="mi-tag">即將開放</span></div>
-    <div class="mi locked"><span class="mi-ico">✨</span><span class="mi-name">更多</span><span class="mi-tag">即將開放</span></div>
-  </div>
-  <div class="drawer-footer">made by ryan</div>
-</div>
-<div class="wrap">
-  <div class="topbar">
-    <div class="logo">LIZ</div>
-    <button class="menu-btn" onclick="openMenu()"><span></span><span></span><span></span></button>
-  </div>
-  <div class="hero">
-    <div class="hero-eyebrow">你的專屬空間</div>
-    <h1>LIZ'S<br><em>PASS</em></h1>
-    <p class="hero-sub">選擇你想要的服務吧</p>
-  </div>
-  <div class="section-label">所有服務</div>
-  <div class="cards">
-    <a class="card open" href="pass.html">
-      <span class="c-ico">💳</span>
-      <div class="c-name">集點卡系統</div>
-      <div class="c-desc">美甲 / 美髮<br>按摩 / 出遊</div>
+  <div class="drawer-items">
+    <a class="di active" href="index.html">
+      <div class="di-left"><span class="di-ico">🏠</span><span class="di-name">首頁</span></div>
+      <span class="di-arr">→</span>
     </a>
-    <div class="card locked" onclick="showComing()">
-      <span class="lock-tag">即將開放</span>
-      <span class="c-ico">🗺️</span>
-      <div class="c-name">旅遊小筆記</div>
-      <div class="c-desc">行程規劃<br>旅遊路線</div>
+    <a class="di" href="pass.html">
+      <div class="di-left"><span class="di-ico">💳</span><span class="di-name">集點卡系統</span></div>
+      <span class="di-arr">→</span>
+    </a>
+    <div class="di locked">
+      <div class="di-left"><span class="di-ico">🗺️</span><span class="di-name">旅遊小筆記</span></div>
+      <span class="di-tag">即將開放</span>
     </div>
-    <div class="card locked" onclick="showComing()">
-      <span class="lock-tag">即將開放</span>
-      <span class="c-ico">⚙️</span>
-      <div class="c-name">設定</div>
-      <div class="c-desc">個人設定<br>通知管理</div>
+    <div class="di locked">
+      <div class="di-left"><span class="di-ico">⚙️</span><span class="di-name">設定</span></div>
+      <span class="di-tag">即將開放</span>
     </div>
-    <div class="card locked" onclick="showComing()">
-      <span class="lock-tag">即將開放</span>
-      <span class="c-ico">✨</span>
-      <div class="c-name">更多</div>
-      <div class="c-desc">ryan 的<br>下一個傑作</div>
+    <div class="di locked">
+      <div class="di-left"><span class="di-ico">✨</span><span class="di-name">更多</span></div>
+      <span class="di-tag">即將開放</span>
     </div>
   </div>
-  <div class="cs-card" id="comingCard" style="display:none;">
-    <div class="cs-emoji">🚧</div>
-    <div class="cs-title">尚未開放</div>
-    <div class="cs-sub">敬請期待<br><strong>ryan 的傑作</strong><br>即將登場 ✦</div>
-  </div>
-  <p class="footer">made by ryan</p>
+  <div class="drawer-foot">Made by Ryan</div>
 </div>
+
+<div class="wrap">
+  <nav>
+    <span class="nav-logo">LIZ'S PASS</span>
+    <div class="nav-menu" onclick="openMenu()"><span></span><span></span><span></span></div>
+  </nav>
+
+  <div class="hero">
+    <div class="hero-label">你的專屬空間</div>
+    <h1>LIZ'S<br>PASS</h1>
+    <p class="hero-sub">選擇你想要的服務</p>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="section-head">
+    <span class="section-title">所有服務</span>
+  </div>
+
+  <div class="svc-list">
+    <a class="svc-item open" href="pass.html">
+      <div class="svc-left">
+        <span class="svc-ico">💳</span>
+        <div class="svc-info">
+          <div class="svc-name">集點卡系統</div>
+          <div class="svc-desc">美甲 · 美髮 · 按摩 · 出遊</div>
+        </div>
+      </div>
+      <span class="svc-arr">→</span>
+    </a>
+    <div class="svc-item locked" onclick="showComing()">
+      <div class="svc-left">
+        <span class="svc-ico">🗺️</span>
+        <div class="svc-info">
+          <div class="svc-name">旅遊小筆記</div>
+          <div class="svc-desc">行程規劃 · 旅遊路線</div>
+        </div>
+      </div>
+      <span class="svc-tag">即將開放</span>
+    </div>
+    <div class="svc-item locked" onclick="showComing()">
+      <div class="svc-left">
+        <span class="svc-ico">⚙️</span>
+        <div class="svc-info">
+          <div class="svc-name">設定</div>
+          <div class="svc-desc">個人設定 · 通知管理</div>
+        </div>
+      </div>
+      <span class="svc-tag">即將開放</span>
+    </div>
+    <div class="svc-item locked" onclick="showComing()">
+      <div class="svc-left">
+        <span class="svc-ico">✨</span>
+        <div class="svc-info">
+          <div class="svc-name">更多</div>
+          <div class="svc-desc">Ryan 的下一個傑作</div>
+        </div>
+      </div>
+      <span class="svc-tag">即將開放</span>
+    </div>
+  </div>
+
+  <div class="cs-wrap" id="csWrap" style="display:none;">
+    <div class="cs-box">
+      <div class="cs-label">Coming Soon</div>
+      <div class="cs-text">尚未開放<em>敬請期待 Ryan 的傑作</em></div>
+    </div>
+  </div>
+
+  <footer>Made by Ryan © 2025</footer>
+</div>
+
 <script>
 function openMenu(){document.getElementById('drawer').classList.add('open');document.getElementById('overlay').classList.add('open');document.body.style.overflow='hidden';}
 function closeMenu(){document.getElementById('drawer').classList.remove('open');document.getElementById('overlay').classList.remove('open');document.body.style.overflow='';}
 let cv=false;
-function showComing(){const c=document.getElementById('comingCard');cv=!cv;c.style.display=cv?'block':'none';if(cv)c.scrollIntoView({behavior:'smooth',block:'center'});}
+function showComing(){cv=!cv;document.getElementById('csWrap').style.display=cv?'block':'none';if(cv)document.getElementById('csWrap').scrollIntoView({behavior:'smooth',block:'center'});}
 </script>
 </body>
 </html>
