@@ -6,86 +6,82 @@
 <title>集點卡系統 — Liz's Pass</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
-:root{--cream:#f0ebe0;--pink:#f03e6e;--dark:#1a1a1a;--mid:#555;--soft:#999;--r:18px;}
-html{background:var(--cream);}
-body{min-height:100vh;font-family:-apple-system,"SF Pro Display","PingFang TC",sans-serif;background:var(--cream);display:flex;justify-content:center;padding:0 0 80px;}
-.wrap{width:100%;max-width:420px;padding:0 20px;}
-.topbar{display:flex;align-items:center;justify-content:space-between;padding:24px 0 0;}
-.back{display:flex;align-items:center;gap:6px;font-size:14px;font-weight:800;color:var(--dark);text-decoration:none;padding:8px 14px;border:2px solid var(--dark);border-radius:12px;background:#fff;box-shadow:2px 2px 0 var(--dark);transition:0.13s;}
-.back:active{transform:translate(1px,1px);box-shadow:none;}
-.logo{font-size:15px;font-weight:900;background:var(--dark);color:#fff;padding:6px 14px;border-radius:99px;}
-.hero{padding:32px 0 24px;}
-.hero-eyebrow{font-size:11px;font-weight:800;letter-spacing:0.12em;text-transform:uppercase;color:var(--pink);margin-bottom:10px;}
-.hero h1{font-size:38px;font-weight:900;line-height:1.0;color:var(--dark);letter-spacing:-1px;text-transform:uppercase;margin-bottom:10px;}
-.hero h1 em{font-style:normal;color:var(--pink);}
-.hero-sub{font-size:13px;color:var(--mid);line-height:1.65;max-width:260px;}
-.section-label{font-size:11px;font-weight:800;letter-spacing:0.1em;text-transform:uppercase;color:var(--soft);margin:28px 0 12px 2px;}
-.cards{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
-.card{background:#fff;border:2px solid var(--dark);border-radius:var(--r);box-shadow:3px 3px 0 var(--dark);padding:20px 16px;cursor:pointer;text-decoration:none;display:block;transition:transform 0.13s,box-shadow 0.13s;position:relative;overflow:hidden;}
-.card:active{transform:translate(2px,2px);box-shadow:1px 1px 0 var(--dark);}
-.card.open{border-color:var(--pink);box-shadow:3px 3px 0 var(--pink);}
-.card.open .c-name{color:var(--pink);}
-.card.locked{opacity:0.65;cursor:default;}
-.card.locked:active{transform:none;box-shadow:3px 3px 0 var(--dark);}
-.c-ico{font-size:34px;margin-bottom:12px;display:block;line-height:1;}
-.c-name{font-size:15px;font-weight:900;color:var(--dark);text-transform:uppercase;letter-spacing:0.02em;margin-bottom:4px;}
-.c-desc{font-size:11px;color:var(--soft);line-height:1.5;}
-.lock-tag{position:absolute;top:12px;right:12px;font-size:10px;font-weight:800;text-transform:uppercase;background:var(--dark);color:#fff;padding:3px 8px;border-radius:6px;}
-.cs-card{background:#fff;border:2px solid var(--dark);border-radius:var(--r);box-shadow:4px 4px 0 var(--dark);padding:22px 20px;margin-top:28px;text-align:center;}
-.cs-emoji{font-size:32px;margin-bottom:10px;}
-.cs-title{font-size:18px;font-weight:900;text-transform:uppercase;color:var(--dark);margin-bottom:6px;}
-.cs-sub{font-size:12px;color:var(--soft);line-height:1.6;}
-.cs-sub strong{color:var(--pink);font-weight:800;}
-.footer{text-align:center;margin-top:36px;font-size:11px;color:var(--soft);}
+:root{--bg:#f0ebe0;--dark:#111;--mid:#555;--soft:#aaa;--line:rgba(0,0,0,0.1);}
+html,body{background:var(--bg);}
+body{min-height:100vh;font-family:-apple-system,"SF Pro Text","PingFang TC",sans-serif;display:flex;justify-content:center;}
+.wrap{width:100%;max-width:430px;}
+nav{display:flex;align-items:center;justify-content:space-between;padding:52px 24px 0;}
+.back{font-size:12px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--dark);text-decoration:none;display:flex;align-items:center;gap:8px;}
+.nav-logo{font-size:13px;font-weight:800;letter-spacing:0.18em;text-transform:uppercase;color:var(--dark);}
+.hero{padding:48px 24px 32px;}
+.hero-label{font-size:10px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:var(--soft);margin-bottom:20px;}
+.hero h1{font-size:48px;font-weight:900;line-height:0.95;letter-spacing:-2px;text-transform:uppercase;color:var(--dark);margin-bottom:24px;}
+.hero-sub{font-size:13px;color:var(--mid);line-height:1.75;border-left:2px solid var(--dark);padding-left:14px;}
+.divider{height:1px;background:var(--line);margin:0 24px;}
+.section-head{padding:28px 24px 16px;}
+.section-title{font-size:10px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:var(--soft);}
+.svc-list{padding:0 24px;}
+.svc-item{display:flex;align-items:center;justify-content:space-between;padding:20px 0;border-bottom:1px solid var(--line);text-decoration:none;cursor:pointer;transition:opacity 0.15s;}
+.svc-item:active{opacity:0.6;}
+.svc-item.locked{cursor:default;}
+.svc-item.locked:active{opacity:1;}
+.svc-left{display:flex;align-items:center;gap:16px;}
+.svc-ico{font-size:22px;width:36px;text-align:center;}
+.svc-name{font-size:14px;font-weight:800;letter-spacing:0.06em;text-transform:uppercase;color:var(--dark);margin-bottom:3px;}
+.svc-item.locked .svc-name{color:var(--soft);}
+.svc-desc{font-size:11px;color:var(--soft);}
+.svc-tag{font-size:9px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--soft);border:1px solid var(--line);padding:3px 8px;border-radius:3px;}
+.svc-arr{font-size:14px;color:var(--dark);}
+.cs-wrap{padding:24px;}
+.cs-box{border:1px solid var(--line);padding:28px 24px;text-align:center;}
+.cs-label{font-size:10px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:var(--soft);margin-bottom:10px;}
+.cs-text{font-size:16px;font-weight:800;letter-spacing:0.04em;text-transform:uppercase;color:var(--dark);line-height:1.5;}
+.cs-text em{font-style:normal;display:block;font-size:11px;font-weight:600;color:var(--soft);letter-spacing:0.1em;margin-top:6px;}
+footer{padding:32px 24px;border-top:1px solid var(--line);font-size:10px;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:var(--soft);}
 </style>
 </head>
 <body>
 <div class="wrap">
-  <div class="topbar">
+  <nav>
     <a class="back" href="index.html">← 首頁</a>
-    <div class="logo">LIZ</div>
-  </div>
+    <span class="nav-logo">LIZ</span>
+  </nav>
   <div class="hero">
-    <div class="hero-eyebrow">專屬集點卡系統</div>
-    <h1>選擇<br><em>服務</em></h1>
+    <div class="hero-label">專屬集點卡系統</div>
+    <h1>選擇<br>服務</h1>
     <p class="hero-sub">選擇你想要預約的服務，我會幫你安排好一切</p>
   </div>
-  <div class="section-label">服務項目</div>
-  <div class="cards">
-    <a class="card open" href="nail.html">
-      <span class="c-ico">💅</span>
-      <div class="c-name">美甲預約</div>
-      <div class="c-desc">專屬集點卡<br>12 次可使用</div>
+  <div class="divider"></div>
+  <div class="section-head"><span class="section-title">服務項目</span></div>
+  <div class="svc-list">
+    <a class="svc-item open" href="nail.html">
+      <div class="svc-left"><span class="svc-ico">💅</span><div><div class="svc-name">美甲預約</div><div class="svc-desc">專屬集點卡 · 12 次可使用</div></div></div>
+      <span class="svc-arr">→</span>
     </a>
-    <div class="card locked" onclick="showComing()">
-      <span class="lock-tag">即將開放</span>
-      <span class="c-ico">💇‍♀️</span>
-      <div class="c-name">美髮</div>
-      <div class="c-desc">造型剪髮<br>染髮燙髮</div>
+    <div class="svc-item locked" onclick="showComing()">
+      <div class="svc-left"><span class="svc-ico">💇‍♀️</span><div><div class="svc-name">美髮</div><div class="svc-desc">造型剪髮 · 染髮燙髮</div></div></div>
+      <span class="svc-tag">即將開放</span>
     </div>
-    <div class="card locked" onclick="showComing()">
-      <span class="lock-tag">即將開放</span>
-      <span class="c-ico">💆‍♀️</span>
-      <div class="c-name">按摩</div>
-      <div class="c-desc">全身放鬆<br>舒壓療程</div>
+    <div class="svc-item locked" onclick="showComing()">
+      <div class="svc-left"><span class="svc-ico">💆‍♀️</span><div><div class="svc-name">按摩</div><div class="svc-desc">全身放鬆 · 舒壓療程</div></div></div>
+      <span class="svc-tag">即將開放</span>
     </div>
-    <div class="card locked" onclick="showComing()">
-      <span class="lock-tag">即將開放</span>
-      <span class="c-ico">✈️</span>
-      <div class="c-name">出遊約會</div>
-      <div class="c-desc">約會行程<br>旅遊規劃</div>
+    <div class="svc-item locked" onclick="showComing()">
+      <div class="svc-left"><span class="svc-ico">✈️</span><div><div class="svc-name">出遊約會</div><div class="svc-desc">約會行程 · 旅遊規劃</div></div></div>
+      <span class="svc-tag">即將開放</span>
     </div>
   </div>
-  <div class="cs-card" id="comingCard" style="display:none;">
-    <div class="cs-emoji">🚧</div>
-    <div class="cs-title">尚未開放</div>
-    <div class="cs-sub">敬請期待<br><strong>ryan 的傑作</strong><br>即將登場 ✦</div>
+  <div class="cs-wrap" id="csWrap" style="display:none;">
+    <div class="cs-box">
+      <div class="cs-label">Coming Soon</div>
+      <div class="cs-text">尚未開放<em>敬請期待 Ryan 的傑作</em></div>
+    </div>
   </div>
-  <p class="footer">made by ryan</p>
+  <footer>Made by Ryan © 2025</footer>
 </div>
 <script>
 let cv=false;
-function showComing(){const c=document.getElementById('comingCard');cv=!cv;c.style.display=cv?'block':'none';if(cv)c.scrollIntoView({behavior:'smooth',block:'center'});}
+function showComing(){cv=!cv;document.getElementById('csWrap').style.display=cv?'block':'none';if(cv)document.getElementById('csWrap').scrollIntoView({behavior:'smooth',block:'center'});}
 </script>
 </body>
 </html>
